@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import '../../utils/constants.dart';
@@ -23,12 +24,15 @@ class BookRemoteDataSourceImpl implements BookRemoteDataSource {
     );
 
     if (response.statusCode == 200) {
-      final data = BookSearchApiResponse.fromJson(
-        jsonDecode(response.body) as Map<String, dynamic>,
-      );
+      final data = await compute(_parseBookSearch, response.body);
       return data.docs;
     } else {
       throw Exception('Failed to load book search results');
     }
   }
 }
+
+BookSearchApiResponse _parseBookSearch(String jsonString) =>
+    BookSearchApiResponse.fromJson(
+      jsonDecode(jsonString) as Map<String, dynamic>,
+    );
