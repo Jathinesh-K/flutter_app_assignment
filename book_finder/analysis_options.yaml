@@ -1,5 +1,10 @@
 include: package:flutter_lints/flutter.yaml
 
+linter:
+  rules:
+    - prefer_relative_imports
+    - avoid_relative_lib_imports
+
 analyzer:
   errors:
     invalid_annotation_target: ignore

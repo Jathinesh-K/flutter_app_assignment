@@ -25,7 +25,7 @@ abstract class BookPreview with _$BookPreview {
     @Default(<String>[]) List<String> authorName,
     int? firstPublishYear,
     required String key,
-    required List<String> ia,
+    @Default(<String>[]) List<String> ia,
     List<String>? authorKey,
     bool? publicScanB,
   }) = _BookPreview;

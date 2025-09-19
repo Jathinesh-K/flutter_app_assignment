@@ -40,7 +40,9 @@ _BookPreview _$BookPreviewFromJson(Map<String, dynamic> json) => _BookPreview(
       const <String>[],
   firstPublishYear: (json['first_publish_year'] as num?)?.toInt(),
   key: json['key'] as String,
-  ia: (json['ia'] as List<dynamic>).map((e) => e as String).toList(),
+  ia:
+      (json['ia'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+      const <String>[],
   authorKey: (json['author_key'] as List<dynamic>?)
       ?.map((e) => e as String)
       .toList(),

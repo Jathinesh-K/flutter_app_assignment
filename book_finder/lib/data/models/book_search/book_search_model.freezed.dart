@@ -493,7 +493,7 @@ return $default(_that.coverI,_that.hasFulltext,_that.editionCount,_that.title,_t
 @JsonSerializable()
 
 class _BookPreview implements BookPreview {
-  const _BookPreview({this.coverI, this.hasFulltext, this.editionCount, required this.title, final  List<String> authorName = const <String>[], this.firstPublishYear, required this.key, required final  List<String> ia, final  List<String>? authorKey, this.publicScanB}): _authorName = authorName,_ia = ia,_authorKey = authorKey;
+  const _BookPreview({this.coverI, this.hasFulltext, this.editionCount, required this.title, final  List<String> authorName = const <String>[], this.firstPublishYear, required this.key, final  List<String> ia = const <String>[], final  List<String>? authorKey, this.publicScanB}): _authorName = authorName,_ia = ia,_authorKey = authorKey;
   factory _BookPreview.fromJson(Map<String, dynamic> json) => _$BookPreviewFromJson(json);
 
 @override final  int? coverI;
@@ -510,7 +510,7 @@ class _BookPreview implements BookPreview {
 @override final  int? firstPublishYear;
 @override final  String key;
  final  List<String> _ia;
-@override List<String> get ia {
+@override@JsonKey() List<String> get ia {
   if (_ia is EqualUnmodifiableListView) return _ia;
   // ignore: implicit_dynamic_type
   return EqualUnmodifiableListView(_ia);
