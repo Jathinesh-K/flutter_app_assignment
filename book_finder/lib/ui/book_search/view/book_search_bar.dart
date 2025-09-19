@@ -56,7 +56,7 @@ class _BookSearchBarState extends State<BookSearchBar> {
         controller: _controller,
         focusNode: _focusNode,
         onSubmitted: (value) {
-          widget.viewModel.searchBooks(value);
+          widget.viewModel.searchBooks(title: value);
         },
         onTapOutside: (_) {
           if (_focusNode.hasFocus) {

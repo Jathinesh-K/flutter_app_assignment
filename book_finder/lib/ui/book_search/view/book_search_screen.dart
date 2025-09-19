@@ -18,9 +18,7 @@ class BookSearchScreen extends StatelessWidget {
       body: SafeArea(
         bottom: false,
         child: RefreshIndicator.adaptive(
-          onRefresh: () async {
-            return;
-          },
+          onRefresh: bookSearchViewModel.refreshBookSearch,
           child: CustomScrollView(
             slivers: [
               SliverAppBar(

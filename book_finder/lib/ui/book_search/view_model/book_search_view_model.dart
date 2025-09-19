@@ -22,10 +22,10 @@ class BookSearchViewModel extends ChangeNotifier {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
-  Future<void> searchBooks(String? title) async {
+  Future<void> searchBooks({String? title, bool refreshData = false}) async {
     /// Return when the title is same as the current query avoiding cache clean and
     /// api call unnecessarily.
-    if (title == _currentTitleQuery) {
+    if (title == _currentTitleQuery && !refreshData) {
       return;
     }
 
@@ -57,4 +57,7 @@ class BookSearchViewModel extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
+
+  Future<void> refreshBookSearch() =>
+      searchBooks(title: _currentTitleQuery, refreshData: true);
 }
