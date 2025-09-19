@@ -6,6 +6,7 @@ abstract class AppConstants {
   static const String appTitle = 'Book Search';
   static const String greeting =
       'Welcome to Open Library! \n Please search the book you like.';
+  static const String noBooksFound = 'No Books found!! Please try with a different keyword.';
 }
 
 abstract class SizeConstants {

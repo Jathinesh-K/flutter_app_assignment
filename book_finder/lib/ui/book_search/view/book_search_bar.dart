@@ -11,7 +11,7 @@ class BookSearchBar extends StatefulWidget implements PreferredSizeWidget {
   State<BookSearchBar> createState() => _BookSearchBarState();
 
   @override
-  Size get preferredSize => Size.fromHeight(SizeConstants.s72);
+  Size get preferredSize => const Size.fromHeight(SizeConstants.s72);
 }
 
 class _BookSearchBarState extends State<BookSearchBar> {
@@ -63,17 +63,16 @@ class _BookSearchBarState extends State<BookSearchBar> {
             _focusNode.unfocus();
           }
         },
-        leading: const Icon(Icons.search),
-        trailing: _showClearIcon
-            ? [
-                IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () {
-                    _controller.clear();
-                  },
-                ),
-              ]
-            : null,
+        trailing: [
+          if (_showClearIcon)
+            _buildIconButton(icon: Icons.clear, onPressed: _controller.clear),
+          _buildIconButton(
+            icon: Icons.search,
+            onPressed: () {
+              _controller.clear();
+            },
+          ),
+        ],
         hintText: AppConstants.searchBarHint,
         shape: WidgetStateProperty.all(
           RoundedRectangleBorder(
@@ -83,4 +82,15 @@ class _BookSearchBarState extends State<BookSearchBar> {
       ),
     );
   }
+
+  Widget _buildIconButton({
+    required IconData icon,
+    required VoidCallback onPressed,
+  }) => IconButton(
+    padding: EdgeInsets.zero,
+    icon: Icon(icon),
+    constraints: const BoxConstraints(minWidth: SizeConstants.s32),
+    style: const ButtonStyle(tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+    onPressed: onPressed,
+  );
 }

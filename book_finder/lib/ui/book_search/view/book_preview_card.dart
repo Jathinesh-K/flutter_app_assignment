@@ -21,10 +21,10 @@ class BookPreviewCard extends StatelessWidget {
               aspectRatio: 2 / 3,
               child: imageUrl.isNotEmpty
                   ? CachedNetworkImage(imageUrl: imageUrl)
-                  : Icon(Icons.broken_image),
+                  : const Icon(Icons.broken_image),
             ),
           ),
-          SizedBox(height: SizeConstants.s4),
+          const SizedBox(height: SizeConstants.s4),
           Text(
             book.title,
             style: theme.textTheme.bodyLarge?.copyWith(
@@ -43,7 +43,7 @@ class BookPreviewCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: SizeConstants.s8),
+          const SizedBox(height: SizeConstants.s8),
         ],
       ),
     );
