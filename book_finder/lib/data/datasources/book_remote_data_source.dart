@@ -12,14 +12,14 @@ abstract class BookRemoteDataSource {
 class BookRemoteDataSourceImpl implements BookRemoteDataSource {
   final http.Client _client;
 
-  BookRemoteDataSourceImpl(this._client);
+  BookRemoteDataSourceImpl({required http.Client client}) : _client = client;
 
   @override
   Future<List<BookPreview>> getBooks(String title, int page) async {
     final response = await _client.get(
       Uri.parse(
         '${AppConstants.openLibraryBaseUrl}/search.json',
-      ).replace(queryParameters: {'title': title, 'page': page.toString(),}),
+      ).replace(queryParameters: {'title': title, 'page': page.toString()}),
     );
 
     if (response.statusCode == 200) {

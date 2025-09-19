@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'config/dependencies.dart';
 import 'routing/routing.dart';
-import 'ui/book_search/view/book_search_screen.dart';
 
 void main() async {
-  runApp(const MainApp());
+  runApp(MultiProvider(providers: providers, child: const MainApp()));
 }
 
 class MainApp extends StatelessWidget {

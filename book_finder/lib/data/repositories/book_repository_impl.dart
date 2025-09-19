@@ -32,5 +32,6 @@ extension _BookX on BookPreview {
     key: key,
     title: title,
     authorName: authorName.isNotEmpty ? authorName.first : '',
+    coverImageId: coverI?.toString() ?? '',
   );
 }

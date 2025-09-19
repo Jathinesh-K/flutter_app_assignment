@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../routing/routes.dart';
 import '../../../utils/constants.dart';
+import '../view_model/book_search_view_model.dart';
+import 'book_preview_card.dart';
+import 'book_search_bar.dart';
 
 class BookSearchScreen extends StatelessWidget {
-  const BookSearchScreen({super.key});
+  final BookSearchViewModel bookSearchViewModel;
+
+  const BookSearchScreen({super.key, required this.bookSearchViewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -27,32 +30,21 @@ class BookSearchScreen extends StatelessWidget {
                     color: theme.colorScheme.onSecondary,
                   ),
                 ),
-                floating: true,
-                snap: true,
                 centerTitle: true,
-                bottom: BookSearchBar(),
+                scrolledUnderElevation: 0,
+                backgroundColor: theme.colorScheme.secondary,
+              ),
+              SliverAppBar(
+                pinned: true,
+                flexibleSpace: BookSearchBar(viewModel: bookSearchViewModel),
                 scrolledUnderElevation: 0,
                 backgroundColor: theme.colorScheme.secondary,
               ),
               DecoratedSliver(
                 decoration: BoxDecoration(color: theme.colorScheme.surface),
                 sliver: SliverPadding(
-                  padding: const EdgeInsets.all(SizeConstants.s16),
-                  sliver: SliverGrid.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: SizeConstants.s16,
-                      crossAxisSpacing: SizeConstants.s16,
-                    ),
-                    itemCount: 20,
-                    itemBuilder: (context, index) => GestureDetector(
-                      onTap: () => context.go('/book/1'),
-                      child: Container(
-                        color: index % 4 == 0 ? Colors.yellow : Colors.white,
-                        child: GridTile(child: Text('Test$index')),
-                      ),
-                    ),
-                  ),
+                  padding: const EdgeInsets.all(SizeConstants.s8),
+                  sliver: _BookSearchResults(viewModel: bookSearchViewModel),
                 ),
               ),
             ],
@@ -63,48 +55,39 @@ class BookSearchScreen extends StatelessWidget {
   }
 }
 
-class BookSearchBar extends StatefulWidget implements PreferredSizeWidget {
-  const BookSearchBar({super.key});
+class _BookSearchResults extends StatelessWidget {
+  final BookSearchViewModel viewModel;
 
-  @override
-  State<BookSearchBar> createState() => _BookSearchBarState();
-
-  @override
-  Size get preferredSize => Size.fromHeight(SizeConstants.s72);
-}
-
-class _BookSearchBarState extends State<BookSearchBar> {
-  late final TextEditingController _controller;
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  const _BookSearchResults({required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: SizeConstants.s16,
-        right: SizeConstants.s16,
-        bottom: SizeConstants.s16,
-      ),
-      child: SearchBar(
-        controller: _controller,
-        leading: const Icon(Icons.search),
-        hintText: AppConstants.searchBarHint,
-        shape: WidgetStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(SizeConstants.s20),
-          ),
-        ),
-      ),
+    return ListenableBuilder(
+      listenable: viewModel,
+      builder: (context, _) {
+        return viewModel.books.isNotEmpty
+            ? SliverGrid.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: SizeConstants.s8,
+                  crossAxisSpacing: SizeConstants.s8,
+                  childAspectRatio: 3 / 5,
+                ),
+                itemCount: viewModel.books.length,
+                itemBuilder: (context, index) => BookPreviewCard(
+                  key: ValueKey(viewModel.books[index].key),
+                  book: viewModel.books[index],
+                ),
+              )
+            : SliverFillRemaining(
+                child: Center(
+                  child: Text(
+                    AppConstants.greeting,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              );
+      },
     );
   }
 }

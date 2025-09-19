@@ -11,7 +11,7 @@ abstract class BookSearchApiResponse with _$BookSearchApiResponse {
     @Default(<BookPreview>[]) List<BookPreview> docs,
   }) = _BookSearchApiResponse;
 
-  factory BookSearchApiResponse.fromJson(Map<String, dynamic> json) => 
+  factory BookSearchApiResponse.fromJson(Map<String, dynamic> json) =>
       _$BookSearchApiResponseFromJson(json);
 }
 
@@ -30,6 +30,6 @@ abstract class BookPreview with _$BookPreview {
     bool? publicScanB,
   }) = _BookPreview;
 
-  factory BookPreview.fromJson(Map<String, dynamic> json) => 
+  factory BookPreview.fromJson(Map<String, dynamic> json) =>
       _$BookPreviewFromJson(json);
 }

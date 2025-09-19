@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Book {
 
- String get key; String get title; String get authorName;
+ String get key; String get title; String get authorName; String get coverImageId;
 /// Create a copy of Book
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,16 +28,16 @@ $BookCopyWith<Book> get copyWith => _$BookCopyWithImpl<Book>(this as Book, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Book&&(identical(other.key, key) || other.key == key)&&(identical(other.title, title) || other.title == title)&&(identical(other.authorName, authorName) || other.authorName == authorName));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Book&&(identical(other.key, key) || other.key == key)&&(identical(other.title, title) || other.title == title)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.coverImageId, coverImageId) || other.coverImageId == coverImageId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,key,title,authorName);
+int get hashCode => Object.hash(runtimeType,key,title,authorName,coverImageId);
 
 @override
 String toString() {
-  return 'Book(key: $key, title: $title, authorName: $authorName)';
+  return 'Book(key: $key, title: $title, authorName: $authorName, coverImageId: $coverImageId)';
 }
 
 
@@ -48,7 +48,7 @@ abstract mixin class $BookCopyWith<$Res>  {
   factory $BookCopyWith(Book value, $Res Function(Book) _then) = _$BookCopyWithImpl;
 @useResult
 $Res call({
- String key, String title, String authorName
+ String key, String title, String authorName, String coverImageId
 });
 
 
@@ -65,11 +65,12 @@ class _$BookCopyWithImpl<$Res>
 
 /// Create a copy of Book
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? key = null,Object? title = null,Object? authorName = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? key = null,Object? title = null,Object? authorName = null,Object? coverImageId = null,}) {
   return _then(_self.copyWith(
 key: null == key ? _self.key : key // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,authorName: null == authorName ? _self.authorName : authorName // ignore: cast_nullable_to_non_nullable
+as String,coverImageId: null == coverImageId ? _self.coverImageId : coverImageId // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -155,10 +156,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String key,  String title,  String authorName)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String key,  String title,  String authorName,  String coverImageId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Book() when $default != null:
-return $default(_that.key,_that.title,_that.authorName);case _:
+return $default(_that.key,_that.title,_that.authorName,_that.coverImageId);case _:
   return orElse();
 
 }
@@ -176,10 +177,10 @@ return $default(_that.key,_that.title,_that.authorName);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String key,  String title,  String authorName)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String key,  String title,  String authorName,  String coverImageId)  $default,) {final _that = this;
 switch (_that) {
 case _Book():
-return $default(_that.key,_that.title,_that.authorName);case _:
+return $default(_that.key,_that.title,_that.authorName,_that.coverImageId);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -196,10 +197,10 @@ return $default(_that.key,_that.title,_that.authorName);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String key,  String title,  String authorName)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String key,  String title,  String authorName,  String coverImageId)?  $default,) {final _that = this;
 switch (_that) {
 case _Book() when $default != null:
-return $default(_that.key,_that.title,_that.authorName);case _:
+return $default(_that.key,_that.title,_that.authorName,_that.coverImageId);case _:
   return null;
 
 }
@@ -211,12 +212,13 @@ return $default(_that.key,_that.title,_that.authorName);case _:
 @JsonSerializable()
 
 class _Book implements Book {
-  const _Book({required this.key, required this.title, required this.authorName});
+  const _Book({required this.key, required this.title, required this.authorName, required this.coverImageId});
   factory _Book.fromJson(Map<String, dynamic> json) => _$BookFromJson(json);
 
 @override final  String key;
 @override final  String title;
 @override final  String authorName;
+@override final  String coverImageId;
 
 /// Create a copy of Book
 /// with the given fields replaced by the non-null parameter values.
@@ -231,16 +233,16 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Book&&(identical(other.key, key) || other.key == key)&&(identical(other.title, title) || other.title == title)&&(identical(other.authorName, authorName) || other.authorName == authorName));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _Book&&(identical(other.key, key) || other.key == key)&&(identical(other.title, title) || other.title == title)&&(identical(other.authorName, authorName) || other.authorName == authorName)&&(identical(other.coverImageId, coverImageId) || other.coverImageId == coverImageId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,key,title,authorName);
+int get hashCode => Object.hash(runtimeType,key,title,authorName,coverImageId);
 
 @override
 String toString() {
-  return 'Book(key: $key, title: $title, authorName: $authorName)';
+  return 'Book(key: $key, title: $title, authorName: $authorName, coverImageId: $coverImageId)';
 }
 
 
@@ -251,7 +253,7 @@ abstract mixin class _$BookCopyWith<$Res> implements $BookCopyWith<$Res> {
   factory _$BookCopyWith(_Book value, $Res Function(_Book) _then) = __$BookCopyWithImpl;
 @override @useResult
 $Res call({
- String key, String title, String authorName
+ String key, String title, String authorName, String coverImageId
 });
 
 
@@ -268,11 +270,12 @@ class __$BookCopyWithImpl<$Res>
 
 /// Create a copy of Book
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? key = null,Object? title = null,Object? authorName = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? key = null,Object? title = null,Object? authorName = null,Object? coverImageId = null,}) {
   return _then(_Book(
 key: null == key ? _self.key : key // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,authorName: null == authorName ? _self.authorName : authorName // ignore: cast_nullable_to_non_nullable
+as String,coverImageId: null == coverImageId ? _self.coverImageId : coverImageId // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

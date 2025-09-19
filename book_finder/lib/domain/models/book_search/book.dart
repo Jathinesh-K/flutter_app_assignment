@@ -9,8 +9,8 @@ abstract class Book with _$Book {
     required String key,
     required String title,
     required String authorName,
+    required String coverImageId,
   }) = _Book;
 
-  factory Book.fromJson(Map<String, dynamic> json) => 
-      _$BookFromJson(json);
+  factory Book.fromJson(Map<String, dynamic> json) => _$BookFromJson(json);
 }
