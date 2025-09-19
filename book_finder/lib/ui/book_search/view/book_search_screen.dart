@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../routing/routes.dart';
 import '../../../utils/constants.dart';
 
 class BookSearchScreen extends StatelessWidget {
@@ -43,9 +45,12 @@ class BookSearchScreen extends StatelessWidget {
                       crossAxisSpacing: SizeConstants.s16,
                     ),
                     itemCount: 20,
-                    itemBuilder: (context, index) => Container(
-                      color: index % 4 == 0 ? Colors.yellow : Colors.white,
-                      child: GridTile(child: Text('Test$index')),
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () => context.go('/book/1'),
+                      child: Container(
+                        color: index % 4 == 0 ? Colors.yellow : Colors.white,
+                        child: GridTile(child: Text('Test$index')),
+                      ),
                     ),
                   ),
                 ),

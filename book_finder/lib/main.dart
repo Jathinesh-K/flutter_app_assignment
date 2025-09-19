@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'routing/routing.dart';
 import 'ui/book_search/view/book_search_screen.dart';
 
 void main() async {
@@ -11,11 +12,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       theme: ThemeData.from(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
       ),
-      home: BookSearchScreen(),
+      routerConfig: router,
     );
   }
 }
