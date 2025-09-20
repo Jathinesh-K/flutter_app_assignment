@@ -10,6 +10,12 @@ abstract class AppConstants {
       'No Books found!! Please try with a different keyword.';
   static const String errorMessage = 'Error fetching books.';
   static const String tryAgain = 'Try Again';
+  static const String bookDetails = 'Book Details';
+  static const String title = 'Title';
+  static const String author = 'Author';
+  static const String description = 'Description';
+  static const String noDescription = 'No Description Available';
+  static const String descError = 'Failed to load Description.';
 }
 
 abstract class SizeConstants {

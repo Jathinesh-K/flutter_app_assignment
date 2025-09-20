@@ -8,6 +8,7 @@ import '../../../domain/models/book_search/book.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/image_error_listener.dart';
 import '../view_model/book_details_view_model.dart';
+import 'book_description.dart';
 
 class BookDetailsScreen extends StatelessWidget {
   const BookDetailsScreen({super.key});
@@ -15,7 +16,7 @@ class BookDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Book Details')),
+      appBar: AppBar(title: const Text(AppConstants.bookDetails)),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: SizeConstants.s16),
@@ -38,13 +39,13 @@ class BookDetailsScreen extends StatelessWidget {
                             children: [
                               _buildTitleWidget(
                                 context,
-                                title: 'Title',
+                                title: AppConstants.title,
                                 value: viewModel.book.title,
                               ),
                               const SizedBox(height: SizeConstants.s4),
                               _buildTitleWidget(
                                 context,
-                                title: 'Author',
+                                title: AppConstants.author,
                                 titleTextStyle: theme.textTheme.titleMedium,
                                 value: viewModel.book.authorName,
                                 valueTextStyle: theme.textTheme.headlineSmall,
@@ -64,16 +65,14 @@ class BookDetailsScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: SizeConstants.s8),
                     Text(
-                      'Description',
+                      AppConstants.description,
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                         color: theme.colorScheme.primary,
                       ),
                     ),
-                    Text(
-                      'Lorem ipsum etc etcfs asdsa das dsa asdas dsad sad asjdknsahdjbas hsadbsa dsabhd sadsabhjds dsadjsd sadjas dsa.',
-                      style: theme.textTheme.bodyMedium,
-                    ),
+                    const SizedBox(height: SizeConstants.s4),
+                    const BookDescription(),
                   ],
                 );
               },

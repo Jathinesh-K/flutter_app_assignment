@@ -6,4 +6,5 @@ abstract class BookRepository {
   Future<Result<void>> saveBook(Book book);
   Future<Result<void>> deleteBook(Book book);
   Future<Result<bool>> isBookSaved(String key);
+  Future<Result<String>> getBookDescription(String key);
 }

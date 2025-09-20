@@ -8,6 +8,7 @@ import '../models/book_search/book_search_model.dart';
 
 abstract class BookRemoteDataSource {
   Future<List<BookPreview>> getBooks(String title, int page);
+  Future<String> getBookDescription(String bookKey);
 }
 
 class BookRemoteDataSourceImpl implements BookRemoteDataSource {
@@ -32,6 +33,22 @@ class BookRemoteDataSourceImpl implements BookRemoteDataSource {
       return data.docs;
     } else {
       throw Exception('Failed to load book search results');
+    }
+  }
+
+  @override
+  Future<String> getBookDescription(String bookKey) async {
+    final response = await _client.get(
+      Uri.parse('${AppConstants.openLibraryBaseUrl}$bookKey.json'),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      final desc = data['description'];
+
+      return desc is String ? desc.trim() : '';
+    } else {
+      throw Exception('Failed to load book description');
     }
   }
 }

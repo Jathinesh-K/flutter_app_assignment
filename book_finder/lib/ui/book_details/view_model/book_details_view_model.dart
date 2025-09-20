@@ -3,6 +3,7 @@ import 'package:logger/logger.dart';
 
 import '../../../domain/models/book_search/book.dart';
 import '../../../domain/use_cases/delete_book.dart';
+import '../../../domain/use_cases/get_book_description.dart';
 import '../../../domain/use_cases/is_book_saved.dart';
 import '../../../domain/use_cases/save_book.dart';
 import '../../../utils/result.dart';
@@ -12,9 +13,19 @@ class BookDetailsViewModel extends ChangeNotifier {
   final SaveBookUseCase _saveBookUseCase;
   final DeleteBookUseCase _deleteBookUseCase;
   final IsBookSavedUseCase _isBookSavedUseCase;
+  final GetBookDescriptionUseCase _getBookDescriptionUseCase;
 
   bool _isBookSaved = false;
   bool get isBookSaved => _isBookSaved;
+
+  String _description = '';
+  String get description => _description;
+
+  bool _isDescriptionLoading = false;
+  bool get isDescriptionLoading => _isDescriptionLoading;
+
+  String? _descriptionError;
+  String? get descriptionError => _descriptionError;
 
   final _log = Logger();
 
@@ -23,10 +34,13 @@ class BookDetailsViewModel extends ChangeNotifier {
     required SaveBookUseCase saveBookUseCase,
     required DeleteBookUseCase deleteBookUseCase,
     required IsBookSavedUseCase isBookSavedUseCase,
+    required GetBookDescriptionUseCase getBookDescriptionUseCase,
   }) : _saveBookUseCase = saveBookUseCase,
        _deleteBookUseCase = deleteBookUseCase,
-       _isBookSavedUseCase = isBookSavedUseCase {
+       _isBookSavedUseCase = isBookSavedUseCase,
+       _getBookDescriptionUseCase = getBookDescriptionUseCase {
     _checkIfBookIsSaved();
+    _fetchDescription();
   }
 
   Future<void> _checkIfBookIsSaved() async {
@@ -75,5 +89,22 @@ class BookDetailsViewModel extends ChangeNotifier {
       case Ok():
         _log.d('Book deleted successfully');
     }
+  }
+
+  Future<void> _fetchDescription() async {
+    _isDescriptionLoading = true;
+    notifyListeners();
+
+    final result = await _getBookDescriptionUseCase.execute(book.key);
+    switch (result) {
+      case Ok<String>():
+        _description = result.value;
+        _descriptionError = null;
+      case Error<String>():
+        _descriptionError = result.error.toString();
+    }
+
+    _isDescriptionLoading = false;
+    notifyListeners();
   }
 }

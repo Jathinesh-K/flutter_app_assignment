@@ -8,6 +8,7 @@ import '../data/datasources/database_helper.dart';
 import '../data/repositories/book_repository_impl.dart';
 import '../domain/repositories/book_repository.dart';
 import '../domain/use_cases/delete_book.dart';
+import '../domain/use_cases/get_book_description.dart';
 import '../domain/use_cases/is_book_saved.dart';
 import '../domain/use_cases/save_book.dart';
 import '../domain/use_cases/search_books.dart';
@@ -45,6 +46,9 @@ List<SingleChildWidget> get providers => [
   ),
   Provider(
     create: (context) => IsBookSavedUseCase(bookRepository: context.read()),
+  ),
+  Provider(
+    create: (context) => GetBookDescriptionUseCase(bookRepository: context.read()),
   ),
   ChangeNotifierProvider(
     create: (context) =>

@@ -55,6 +55,16 @@ class BookRepositoryImpl implements BookRepository {
       return Result.error(e);
     }
   }
+
+  @override
+  Future<Result<String>> getBookDescription(String key) async {
+    try {
+      final description = await _bookRemoteDataSource.getBookDescription(key);
+      return Result.ok(description);
+    } on Exception catch (e) {
+      return Result.error(e);
+    }
+  }
 }
 
 extension _BookX on BookPreview {

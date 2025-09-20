@@ -20,20 +20,14 @@ GoRouter get router => GoRouter(
           name: Routes.bookDetails,
           path: Routes.bookDetails,
           builder: (context, state) {
-            //TODO: Revert. Only for testing.
-            Book book;
-            try {
-              book = state.extra as Book;
-            } catch (_) {
-              book = Book.fromJson(state.extra as Map<String, dynamic>);
-            }
-            // final book = state.extra as Book;
+            final book = state.extra as Book;
             return ChangeNotifierProvider(
               create: (context) => BookDetailsViewModel(
                 book: book,
                 saveBookUseCase: context.read(),
                 deleteBookUseCase: context.read(),
                 isBookSavedUseCase: context.read(),
+                getBookDescriptionUseCase: context.read(),
               ),
               child: const BookDetailsScreen(),
             );
