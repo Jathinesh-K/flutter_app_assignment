@@ -25,6 +25,12 @@ class BookRepositoryImpl implements BookRepository {
       return Result.error(e);
     }
   }
+  
+  @override
+  Future<Result<void>> saveBook(Book book) {
+    // TODO: implement saveBook
+    throw UnimplementedError();
+  }
 }
 
 extension _BookX on BookPreview {

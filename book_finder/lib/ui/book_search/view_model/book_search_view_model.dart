@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
 import '../../../domain/models/book_search/book.dart';
-import '../../../domain/use_cases/get_books.dart';
+import '../../../domain/use_cases/search_books.dart';
 import '../../../utils/result.dart';
 
 class BookSearchViewModel extends ChangeNotifier {
-  final GetBooksUseCase _getBooksUseCase;
+  final SearchBooksUseCase _searchBooksUseCase;
 
-  BookSearchViewModel({required GetBooksUseCase getBooksUseCase})
-    : _getBooksUseCase = getBooksUseCase;
+  BookSearchViewModel({required SearchBooksUseCase searchBooksUseCase})
+    : _searchBooksUseCase = searchBooksUseCase;
 
   String _currentTitleQuery = '';
   int _currentPage = 1;
@@ -45,7 +45,7 @@ class BookSearchViewModel extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    final result = await _getBooksUseCase.getBooks(
+    final result = await _searchBooksUseCase.getBooks(
       _currentTitleQuery,
       _currentPage,
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../domain/models/book_search/book.dart';
+import '../../../routing/routes.dart';
 import '../../../utils/constants.dart';
 import '../../../utils/image_error_listener.dart';
 
@@ -15,40 +16,49 @@ class BookPreviewCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Card(
-      child: Column(
-        children: [
-          Expanded(
-            child: AspectRatio(
-              aspectRatio: 2 / 3,
-              child: imageUrl.isNotEmpty
-                  ? CachedNetworkImage(
-                      imageUrl: imageUrl,
-                      errorListener: imageErrorListener,
-                    )
-                  : const Icon(Icons.broken_image),
+      child: InkWell(
+        onTap: () {
+          context.goNamed(Routes.bookDetails, extra: book);
+        },
+        child: Column(
+          children: [
+            Expanded(
+              child: AspectRatio(
+                aspectRatio: 2 / 3,
+                child: imageUrl.isNotEmpty
+                    ? Hero(
+                        tag: ValueKey(book.key),
+                        child: CachedNetworkImage(
+                          cacheKey: book.key,
+                          imageUrl: imageUrl,
+                          errorListener: imageErrorListener,
+                        ),
+                      )
+                    : const Icon(Icons.broken_image),
+              ),
             ),
-          ),
-          const SizedBox(height: SizeConstants.s4),
-          Text(
-            book.title,
-            style: theme.textTheme.bodyLarge?.copyWith(
-              color: theme.colorScheme.primary,
+            const SizedBox(height: SizeConstants.s4),
+            Text(
+              book.title,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: theme.colorScheme.primary,
+              ),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
             ),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            'by ${book.authorName}',
-            style: theme.textTheme.labelMedium?.copyWith(
-              color: theme.colorScheme.tertiary,
+            Text(
+              'by ${book.authorName}',
+              style: theme.textTheme.labelMedium?.copyWith(
+                color: theme.colorScheme.tertiary,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: SizeConstants.s8),
-        ],
+            const SizedBox(height: SizeConstants.s8),
+          ],
+        ),
       ),
     );
   }

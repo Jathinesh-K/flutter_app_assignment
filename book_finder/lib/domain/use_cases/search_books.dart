@@ -2,10 +2,10 @@ import '../models/book_search/book.dart';
 import '../repositories/book_repository.dart';
 import '../../utils/result.dart';
 
-class GetBooksUseCase {
+class SearchBooksUseCase {
   final BookRepository _bookRepository;
 
-  GetBooksUseCase({required BookRepository bookRepository})
+  SearchBooksUseCase({required BookRepository bookRepository})
     : _bookRepository = bookRepository;
 
   Future<Result<List<Book>>> getBooks(String title, int page) {
