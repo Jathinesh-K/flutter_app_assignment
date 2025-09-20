@@ -24,7 +24,7 @@ GoRouter get router => GoRouter(
             Book book;
             try {
               book = state.extra as Book;
-            } catch(_) {
+            } catch (_) {
               book = Book.fromJson(state.extra as Map<String, dynamic>);
             }
             // final book = state.extra as Book;
@@ -33,6 +33,7 @@ GoRouter get router => GoRouter(
                 book: book,
                 saveBookUseCase: context.read(),
                 deleteBookUseCase: context.read(),
+                isBookSavedUseCase: context.read(),
               ),
               child: const BookDetailsScreen(),
             );

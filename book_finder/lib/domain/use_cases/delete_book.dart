@@ -9,6 +9,6 @@ class DeleteBookUseCase {
     : _bookRepository = bookRepository;
 
   Future<Result<void>> execute(Book book) {
-    return _bookRepository.saveBook(book);
+    return _bookRepository.deleteBook(book);
   }
 }

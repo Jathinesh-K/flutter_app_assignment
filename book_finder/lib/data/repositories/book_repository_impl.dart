@@ -25,17 +25,35 @@ class BookRepositoryImpl implements BookRepository {
       return Result.error(e);
     }
   }
-  
+
   @override
-  Future<Result<void>> saveBook(Book book) {
-    // TODO: implement saveBook
-    throw UnimplementedError();
+  Future<Result<void>> saveBook(Book book) async {
+    try {
+      await _bookLocalDataSource.saveBook(book);
+      return const Result.ok(null);
+    } on Exception catch (e) {
+      return Result.error(e);
+    }
   }
-  
+
   @override
-  Future<Result<void>> deleteBook(Book book) {
-    // TODO: implement deleteBook
-    throw UnimplementedError();
+  Future<Result<void>> deleteBook(Book book) async {
+    try {
+      await _bookLocalDataSource.deleteBook(book);
+      return const Result.ok(null);
+    } on Exception catch (e) {
+      return Result.error(e);
+    }
+  }
+
+  @override
+  Future<Result<bool>> isBookSaved(String key) async {
+    try {
+      final isSaved = await _bookLocalDataSource.isBookSaved(key);
+      return Result.ok(isSaved);
+    } on Exception catch (e) {
+      return Result.error(e);
+    }
   }
 }
 

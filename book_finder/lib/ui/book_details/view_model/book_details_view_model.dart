@@ -3,6 +3,7 @@ import 'package:logger/logger.dart';
 
 import '../../../domain/models/book_search/book.dart';
 import '../../../domain/use_cases/delete_book.dart';
+import '../../../domain/use_cases/is_book_saved.dart';
 import '../../../domain/use_cases/save_book.dart';
 import '../../../utils/result.dart';
 
@@ -10,6 +11,7 @@ class BookDetailsViewModel extends ChangeNotifier {
   final Book book;
   final SaveBookUseCase _saveBookUseCase;
   final DeleteBookUseCase _deleteBookUseCase;
+  final IsBookSavedUseCase _isBookSavedUseCase;
 
   bool _isBookSaved = false;
   bool get isBookSaved => _isBookSaved;
@@ -20,8 +22,20 @@ class BookDetailsViewModel extends ChangeNotifier {
     required this.book,
     required SaveBookUseCase saveBookUseCase,
     required DeleteBookUseCase deleteBookUseCase,
+    required IsBookSavedUseCase isBookSavedUseCase,
   }) : _saveBookUseCase = saveBookUseCase,
-       _deleteBookUseCase = deleteBookUseCase;
+       _deleteBookUseCase = deleteBookUseCase,
+       _isBookSavedUseCase = isBookSavedUseCase {
+    _checkIfBookIsSaved();
+  }
+
+  Future<void> _checkIfBookIsSaved() async {
+    final result = await _isBookSavedUseCase.execute(book.key);
+    if (result is Ok<bool>) {
+      _isBookSaved = result.value;
+      notifyListeners();
+    }
+  }
 
   void toggleBookSave() {
     if (!isBookSaved) {
@@ -39,7 +53,7 @@ class BookDetailsViewModel extends ChangeNotifier {
 
     switch (result) {
       case Error():
-        _log.e('Failed to save book');
+        _log.e('Failed to save book', error: result.error);
         _isBookSaved = false;
         notifyListeners();
       case Ok():
