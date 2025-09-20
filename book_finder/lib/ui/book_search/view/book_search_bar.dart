@@ -69,7 +69,7 @@ class _BookSearchBarState extends State<BookSearchBar> {
           _buildIconButton(
             icon: Icons.search,
             onPressed: () {
-              _controller.clear();
+              widget.viewModel.searchBooks(title: _controller.text);
             },
           ),
         ],

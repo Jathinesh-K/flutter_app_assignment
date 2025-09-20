@@ -28,7 +28,9 @@ class BookSearchViewModel extends ChangeNotifier {
   Future<void> searchBooks({String? title, bool refreshData = false}) async {
     /// Return when the data is already loading or when title is same as the
     /// current query avoiding cache clean and api call unnecessarily.
-    if (isLoading || (title == _currentTitleQuery && !refreshData)) {
+    if (isLoading ||
+        isTitleCurrentQueryEmpty(title) ||
+        (title == _currentTitleQuery && !refreshData)) {
       return;
     }
 
@@ -69,4 +71,7 @@ class BookSearchViewModel extends ChangeNotifier {
   bool get isSearchQueryEmpty => _currentTitleQuery.isEmpty;
 
   void resetErrorMessage() => _errorMessage = null;
+
+  bool isTitleCurrentQueryEmpty(String? title) =>
+      (title?.isEmpty ?? true) && _currentTitleQuery.isEmpty;
 }
