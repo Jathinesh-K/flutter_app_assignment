@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../domain/models/book_search/book.dart';
 import '../../../utils/constants.dart';
+import '../../../utils/image_error_listener.dart';
 
 class BookPreviewCard extends StatelessWidget {
   const BookPreviewCard({super.key, required this.book});
@@ -20,7 +21,10 @@ class BookPreviewCard extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: 2 / 3,
               child: imageUrl.isNotEmpty
-                  ? CachedNetworkImage(imageUrl: imageUrl)
+                  ? CachedNetworkImage(
+                      imageUrl: imageUrl,
+                      errorListener: imageErrorListener,
+                    )
                   : const Icon(Icons.broken_image),
             ),
           ),

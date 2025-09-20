@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 import '../../../domain/models/book_search/book.dart';
 import '../../../domain/use_cases/get_books.dart';
@@ -22,8 +23,10 @@ class BookSearchViewModel extends ChangeNotifier {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
+  final _log = Logger();
+
   Future<void> searchBooks({String? title, bool refreshData = false}) async {
-    /// Return when the data is already loading or when title is same as the 
+    /// Return when the data is already loading or when title is same as the
     /// current query avoiding cache clean and api call unnecessarily.
     if (isLoading || (title == _currentTitleQuery && !refreshData)) {
       return;
@@ -48,9 +51,11 @@ class BookSearchViewModel extends ChangeNotifier {
     switch (result) {
       case Ok<List<Book>>():
         _books.addAll(result.value);
+        _log.d('Successfully fetched books');
         _currentPage++;
-        _errorMessage = null;
+        resetErrorMessage();
       case Error<List<Book>>():
+        _log.e('Book Search Error: ${result.error}');
         _errorMessage = result.error.toString();
     }
 
@@ -62,4 +67,6 @@ class BookSearchViewModel extends ChangeNotifier {
       searchBooks(title: _currentTitleQuery, refreshData: true);
 
   bool get isSearchQueryEmpty => _currentTitleQuery.isEmpty;
+
+  void resetErrorMessage() => _errorMessage = null;
 }

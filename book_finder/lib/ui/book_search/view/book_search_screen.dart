@@ -22,10 +22,12 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
   void initState() {
     super.initState();
     _controller.addListener(_onScroll);
+    widget.bookSearchViewModel.addListener(_listener);
   }
 
   @override
   void dispose() {
+    widget.bookSearchViewModel.removeListener(_listener);
     _controller.dispose();
     super.dispose();
   }
@@ -75,6 +77,23 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
         ),
       ),
     );
+  }
+
+  void _listener() {
+    if (widget.bookSearchViewModel.errorMessage != null && mounted) {
+      widget.bookSearchViewModel.resetErrorMessage();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(AppConstants.errorMessage),
+          action: SnackBarAction(
+            label: AppConstants.tryAgain,
+            onPressed: () {
+              widget.bookSearchViewModel.refreshBookSearch();
+            },
+          ),
+        ),
+      );
+    }
   }
 
   void _onScroll() {
