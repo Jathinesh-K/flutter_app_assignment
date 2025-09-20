@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../utils/constants.dart';
 import '../../core/skeleton_loader.dart';
@@ -7,9 +8,7 @@ import 'book_preview_card.dart';
 import 'book_search_bar.dart';
 
 class BookSearchScreen extends StatefulWidget {
-  final BookSearchViewModel bookSearchViewModel;
-
-  const BookSearchScreen({super.key, required this.bookSearchViewModel});
+  const BookSearchScreen({super.key});
 
   @override
   State<BookSearchScreen> createState() => _BookSearchScreenState();
@@ -17,17 +16,21 @@ class BookSearchScreen extends StatefulWidget {
 
 class _BookSearchScreenState extends State<BookSearchScreen> {
   final _controller = ScrollController();
+  late final BookSearchViewModel _viewModel = Provider.of<BookSearchViewModel>(
+    context,
+    listen: false,
+  );
 
   @override
   void initState() {
     super.initState();
     _controller.addListener(_onScroll);
-    widget.bookSearchViewModel.addListener(_listener);
+    _viewModel.addListener(_listener);
   }
 
   @override
   void dispose() {
-    widget.bookSearchViewModel.removeListener(_listener);
+    _viewModel.removeListener(_listener);
     _controller.dispose();
     super.dispose();
   }
@@ -40,7 +43,7 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
       body: SafeArea(
         bottom: false,
         child: RefreshIndicator.adaptive(
-          onRefresh: widget.bookSearchViewModel.refreshBookSearch,
+          onRefresh: _viewModel.refreshBookSearch,
           child: CustomScrollView(
             controller: _controller,
             slivers: [
@@ -57,19 +60,15 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
               ),
               SliverAppBar(
                 pinned: true,
-                flexibleSpace: BookSearchBar(
-                  viewModel: widget.bookSearchViewModel,
-                ),
+                flexibleSpace: const BookSearchBar(),
                 scrolledUnderElevation: 0,
                 backgroundColor: theme.colorScheme.secondary,
               ),
               DecoratedSliver(
                 decoration: BoxDecoration(color: theme.colorScheme.surface),
-                sliver: SliverPadding(
-                  padding: const EdgeInsets.all(SizeConstants.s8),
-                  sliver: _BookSearchResults(
-                    viewModel: widget.bookSearchViewModel,
-                  ),
+                sliver: const SliverPadding(
+                  padding: EdgeInsets.all(SizeConstants.s8),
+                  sliver: _BookSearchResults(),
                 ),
               ),
             ],
@@ -80,15 +79,15 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
   }
 
   void _listener() {
-    if (widget.bookSearchViewModel.errorMessage != null && mounted) {
-      widget.bookSearchViewModel.resetErrorMessage();
+    if (_viewModel.errorMessage != null && mounted) {
+      _viewModel.resetErrorMessage();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: const Text(AppConstants.errorMessage),
           action: SnackBarAction(
             label: AppConstants.tryAgain,
             onPressed: () {
-              widget.bookSearchViewModel.refreshBookSearch();
+              _viewModel.refreshBookSearch();
             },
           ),
         ),
@@ -98,7 +97,7 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
 
   void _onScroll() {
     if (_isAtBottom) {
-      widget.bookSearchViewModel.searchBooks();
+      _viewModel.searchBooks();
     }
   }
 
@@ -111,15 +110,12 @@ class _BookSearchScreenState extends State<BookSearchScreen> {
 }
 
 class _BookSearchResults extends StatelessWidget {
-  final BookSearchViewModel viewModel;
-
-  const _BookSearchResults({required this.viewModel});
+  const _BookSearchResults();
 
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: viewModel,
-      builder: (context, _) {
+    return Consumer<BookSearchViewModel>(
+      builder: (_, viewModel, _) {
         if (viewModel.isLoading && viewModel.books.isEmpty) {
           return const SkeletonLoader();
         } else if (viewModel.books.isEmpty) {

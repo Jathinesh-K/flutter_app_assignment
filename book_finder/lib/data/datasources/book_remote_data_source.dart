@@ -18,9 +18,13 @@ class BookRemoteDataSourceImpl implements BookRemoteDataSource {
   @override
   Future<List<BookPreview>> getBooks(String title, int page) async {
     final response = await _client.get(
-      Uri.parse(
-        '${AppConstants.openLibraryBaseUrl}/search.json',
-      ).replace(queryParameters: {'title': title, 'page': page.toString()}),
+      Uri.parse('${AppConstants.openLibraryBaseUrl}/search.json').replace(
+        queryParameters: {
+          'title': title,
+          'page': page.toString(),
+          'limit': '10',
+        },
+      ),
     );
 
     if (response.statusCode == 200) {

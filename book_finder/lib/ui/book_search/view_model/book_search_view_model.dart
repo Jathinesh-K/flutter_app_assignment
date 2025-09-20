@@ -45,7 +45,7 @@ class BookSearchViewModel extends ChangeNotifier {
     _isLoading = true;
     notifyListeners();
 
-    final result = await _searchBooksUseCase.getBooks(
+    final result = await _searchBooksUseCase.execute(
       _currentTitleQuery,
       _currentPage,
     );
@@ -57,7 +57,7 @@ class BookSearchViewModel extends ChangeNotifier {
         _currentPage++;
         resetErrorMessage();
       case Error<List<Book>>():
-        _log.e('Book Search Error: ${result.error}');
+        _log.e('Book Search Error: ', error: result.error);
         _errorMessage = result.error.toString();
     }
 

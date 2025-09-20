@@ -31,6 +31,12 @@ class BookRepositoryImpl implements BookRepository {
     // TODO: implement saveBook
     throw UnimplementedError();
   }
+  
+  @override
+  Future<Result<void>> deleteBook(Book book) {
+    // TODO: implement deleteBook
+    throw UnimplementedError();
+  }
 }
 
 extension _BookX on BookPreview {

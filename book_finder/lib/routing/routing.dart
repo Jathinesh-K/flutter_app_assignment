@@ -13,19 +13,29 @@ GoRouter get router => GoRouter(
     GoRoute(
       path: Routes.home,
       builder: (context, state) {
-        return BookSearchScreen(bookSearchViewModel: context.read());
+        return const BookSearchScreen();
       },
       routes: [
         GoRoute(
           name: Routes.bookDetails,
           path: Routes.bookDetails,
           builder: (context, state) {
-            final book = state.extra as Book;
-            final viewModel = BookDetailsViewModel(
-              book: book,
-              saveBookUseCase: context.read(),
+            //TODO: Revert. Only for testing.
+            Book book;
+            try {
+              book = state.extra as Book;
+            } catch(_) {
+              book = Book.fromJson(state.extra as Map<String, dynamic>);
+            }
+            // final book = state.extra as Book;
+            return ChangeNotifierProvider(
+              create: (context) => BookDetailsViewModel(
+                book: book,
+                saveBookUseCase: context.read(),
+                deleteBookUseCase: context.read(),
+              ),
+              child: const BookDetailsScreen(),
             );
-            return BookDetailsScreen(viewModel: viewModel);
           },
         ),
       ],

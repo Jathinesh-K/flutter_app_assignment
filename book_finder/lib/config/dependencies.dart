@@ -6,6 +6,7 @@ import '../data/datasources/book_local_data_source.dart';
 import '../data/datasources/book_remote_data_source.dart';
 import '../data/repositories/book_repository_impl.dart';
 import '../domain/repositories/book_repository.dart';
+import '../domain/use_cases/delete_book.dart';
 import '../domain/use_cases/save_book.dart';
 import '../domain/use_cases/search_books.dart';
 import '../ui/book_search/view_model/book_search_view_model.dart';
@@ -28,7 +29,11 @@ List<SingleChildWidget> get providers => [
   Provider(
     create: (context) => SaveBookUseCase(bookRepository: context.read()),
   ),
+  Provider(
+    create: (context) => DeleteBookUseCase(bookRepository: context.read()),
+  ),
   ChangeNotifierProvider(
-    create: (context) => BookSearchViewModel(searchBooksUseCase: context.read()),
+    create: (context) =>
+        BookSearchViewModel(searchBooksUseCase: context.read()),
   ),
 ];

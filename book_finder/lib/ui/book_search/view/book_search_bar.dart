@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../utils/constants.dart';
 import '../view_model/book_search_view_model.dart';
 
 class BookSearchBar extends StatefulWidget implements PreferredSizeWidget {
-  final BookSearchViewModel viewModel;
-  const BookSearchBar({super.key, required this.viewModel});
+  const BookSearchBar({super.key});
 
   @override
   State<BookSearchBar> createState() => _BookSearchBarState();
@@ -18,6 +18,7 @@ class _BookSearchBarState extends State<BookSearchBar> {
   late final TextEditingController _controller;
   late FocusNode _focusNode;
   bool _showClearIcon = false;
+  late BookSearchViewModel _viewModel;
 
   @override
   void initState() {
@@ -35,6 +36,12 @@ class _BookSearchBarState extends State<BookSearchBar> {
       }
     });
     _focusNode = FocusNode();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _viewModel = Provider.of<BookSearchViewModel>(context, listen: false);
   }
 
   @override
@@ -56,7 +63,7 @@ class _BookSearchBarState extends State<BookSearchBar> {
         controller: _controller,
         focusNode: _focusNode,
         onSubmitted: (value) {
-          widget.viewModel.searchBooks(title: value);
+          _viewModel.searchBooks(title: value);
         },
         onTapOutside: (_) {
           if (_focusNode.hasFocus) {
@@ -69,7 +76,7 @@ class _BookSearchBarState extends State<BookSearchBar> {
           _buildIconButton(
             icon: Icons.search,
             onPressed: () {
-              widget.viewModel.searchBooks(title: _controller.text);
+              _viewModel.searchBooks(title: _controller.text);
             },
           ),
         ],

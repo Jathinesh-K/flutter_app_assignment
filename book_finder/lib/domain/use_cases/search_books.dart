@@ -8,7 +8,7 @@ class SearchBooksUseCase {
   SearchBooksUseCase({required BookRepository bookRepository})
     : _bookRepository = bookRepository;
 
-  Future<Result<List<Book>>> getBooks(String title, int page) {
+  Future<Result<List<Book>>> execute(String title, int page) {
     return _bookRepository.getBooks(title, page);
   }
 }

@@ -2,10 +2,10 @@ import '../models/book_search/book.dart';
 import '../repositories/book_repository.dart';
 import '../../utils/result.dart';
 
-class SaveBookUseCase {
+class DeleteBookUseCase {
   final BookRepository _bookRepository;
 
-  SaveBookUseCase({required BookRepository bookRepository})
+  DeleteBookUseCase({required BookRepository bookRepository})
     : _bookRepository = bookRepository;
 
   Future<Result<void>> execute(Book book) {
