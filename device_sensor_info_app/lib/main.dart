@@ -1,4 +1,11 @@
+import 'package:device_sensor_info_app/data/repositories/device_info_repository_impl.dart';
+import 'package:device_sensor_info_app/data/services/device_info_service.dart';
+import 'package:device_sensor_info_app/ui/device_battery/view/device_battery_screen.dart';
+import 'package:device_sensor_info_app/ui/device_battery/view_model/device_battery_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'domain/repositories/device_info_repository.dart';
 
 void main() {
   runApp(const MainApp());
@@ -9,10 +16,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
+        body: ChangeNotifierProvider(
+          create: (context) => DeviceBatteryViewModel(
+            deviceInfoRepository:
+                DeviceInfoRepositoryImpl(DeviceInfoService())
+                    as DeviceInfoRepository,
+          ),
+          child: DeviceBatteryScreen(),
         ),
       ),
     );
