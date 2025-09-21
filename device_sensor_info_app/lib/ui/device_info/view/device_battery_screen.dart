@@ -46,9 +46,12 @@ class DeviceInfoScreen extends StatelessWidget {
               ),
             ),
           ),
-          ElevatedButton(
-            onPressed: viewModel.getDeviceInfo,
-            child: const Text('Get Device Info'),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: viewModel.getDeviceInfo,
+              child: const Text('Get Device Info'),
+            ),
           ),
         ],
       ),
