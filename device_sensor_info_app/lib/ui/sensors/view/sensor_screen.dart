@@ -8,47 +8,37 @@ class SensorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        children: [
-          Expanded(
-            child: Consumer<SensorViewModel>(
-              builder: (context, viewModel, child) {
-                return Column(
-                  children: [
-                    ?child,
-                    const SizedBox(height: 16),
-                    Icon(
-                      viewModel.flashlightEnabled
-                          ? Icons.flashlight_on
-                          : Icons.flashlight_off,
-                      color: viewModel.flashlightEnabled
-                          ? Colors.amber
-                          : Colors.grey,
-                    ),
-                    const SizedBox(height: 16),
-                    if (!viewModel.hasFlashlight)
-                      const Text('No flashlight available for this device')
-                    else
-                      FilledButton.icon(
-                        onPressed: viewModel.isFlashlightLoading
-                            ? null
-                            : viewModel.toggleFlashlight,
-                        icon: Icon(
-                          viewModel.flashlightEnabled
-                              ? Icons.visibility_off
-                              : Icons.visibility,
-                        ),
-                        label: Text(
-                          viewModel.flashlightEnabled ? 'Turn Off' : 'Turn On',
-                        ),
-                      ),
-                  ],
-                );
-              },
-              child: const Text('Flashlight'),
-            ),
-          ),
-        ],
+      child: Consumer<SensorViewModel>(
+        builder: (context, viewModel, child) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ?child,
+              const SizedBox(height: 16),
+              Icon(
+                viewModel.flashlightEnabled
+                    ? Icons.flashlight_on
+                    : Icons.flashlight_off,
+                color: viewModel.flashlightEnabled
+                    ? Colors.amber
+                    : Colors.grey,
+              ),
+              const SizedBox(height: 16),
+              if (!viewModel.hasFlashlight)
+                const Text('No flashlight available for this device')
+              else
+                FilledButton(
+                  onPressed: viewModel.isFlashlightLoading
+                      ? null
+                      : viewModel.toggleFlashlight,
+                  child: Text(
+                    viewModel.flashlightEnabled ? 'Turn Off' : 'Turn On',
+                  ),
+                ),
+            ],
+          );
+        },
+        child: const Text('Flashlight'),
       ),
     );
   }

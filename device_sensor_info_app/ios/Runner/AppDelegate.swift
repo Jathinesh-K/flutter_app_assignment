@@ -1,3 +1,4 @@
+import AVFoundation
 import Flutter
 import UIKit
 
@@ -8,9 +9,12 @@ import UIKit
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
     let controller : FlutterViewController = window?.rootViewController as! FlutterViewController
-    let batteryChannel = FlutterMethodChannel(name: "device/info",
+    let deviceChannel = FlutterMethodChannel(name: "device/info",
                                               binaryMessenger: controller.binaryMessenger)
-    batteryChannel.setMethodCallHandler({
+    let sensorChannel = FlutterMethodChannel(name: "device/sensor",
+                                              binaryMessenger: controller.binaryMessenger)
+
+    deviceChannel.setMethodCallHandler({
       [weak self] call, result in
       guard let self = self else { return }
       switch call.method {
@@ -22,6 +26,26 @@ import UIKit
         result("iOS \(UIDevice.current.systemVersion)")
       default:
         result(FlutterMethodNotImplemented)
+      }
+    })
+
+    sensorChannel.setMethodCallHandler({
+      [weak self] call, result in
+      guard let self = self else {return}
+      switch call.method {
+        case "hasFlashlight":
+          let device = AVCaptureDevice.default(for: .video)
+          result(device?.hasTorch == true)
+        case "toggleFlashlight":
+          guard let args = call.arguments as? [String: Any],
+            let enable = args["enable"] as? Bool
+          else {
+            result(false)
+            return
+          }
+          toggleFlashlight(result: result, enable: enable)
+        default:
+          result(FlutterMethodNotImplemented)
       }
     })
 
@@ -39,5 +63,25 @@ import UIKit
     } else {
       result(Int(device.batteryLevel * 100))
     }
-}
+  }
+
+  private func toggleFlashlight(result: FlutterResult, enable: Bool) {
+    let device = AVCaptureDevice.default(for: .video)
+    if let device = device, device.hasTorch {
+      do {
+        try device.lockForConfiguration()
+        if enable {
+          try device.setTorchModeOn(level: 1.0)
+        } else {
+          device.torchMode = .off
+        }
+        device.unlockForConfiguration()
+        result(true)
+      } catch {
+        result(false)
+      }
+    } else {
+      result(false)
+    }
+  }
 }
