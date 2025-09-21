@@ -17,14 +17,17 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: ChangeNotifierProvider(
-          create: (context) => DeviceBatteryViewModel(
-            deviceInfoRepository:
-                DeviceInfoRepositoryImpl(DeviceInfoService())
-                    as DeviceInfoRepository,
+        body: SafeArea(
+          child: ChangeNotifierProvider(
+            create: (context) => DeviceInfoViewModel(
+              deviceInfoRepository:
+                  DeviceInfoRepositoryImpl(DeviceInfoServiceImpl() as DeviceInfoService)
+                      as DeviceInfoRepository,
+            ),
+            child: DeviceInfoScreen(),
           ),
-          child: DeviceBatteryScreen(),
         ),
       ),
     );

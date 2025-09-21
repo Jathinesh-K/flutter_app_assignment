@@ -8,7 +8,7 @@ import UIKit
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
     let controller : FlutterViewController = window?.rootViewController as! FlutterViewController
-    let batteryChannel = FlutterMethodChannel(name: "device.info/battery",
+    let batteryChannel = FlutterMethodChannel(name: "device/info",
                                               binaryMessenger: controller.binaryMessenger)
     batteryChannel.setMethodCallHandler({
       [weak self] call, result in
@@ -16,6 +16,10 @@ import UIKit
       switch call.method {
       case "getBatteryLevel":
         self.receiveBatteryLevel(result: result)
+      case "getDeviceName":
+        result(UIDevice.current.name)
+      case "getOSVersion":
+        result("iOS \(UIDevice.current.systemVersion)")
       default:
         result(FlutterMethodNotImplemented)
       }
