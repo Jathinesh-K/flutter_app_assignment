@@ -17,7 +17,7 @@ class DeviceBatteryViewModel extends ChangeNotifier {
 
     switch (result) {
       case Ok():
-      _batteryLevel = 'Battery Level: ${result.value}';
+      _batteryLevel = 'Battery Level: ${result.value}%';
       case Error():
       _batteryLevel = 'Failed to get battery level: ${result.error}';
     }
