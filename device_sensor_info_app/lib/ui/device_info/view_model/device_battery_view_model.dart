@@ -23,9 +23,9 @@ class DeviceInfoViewModel extends ChangeNotifier {
     final result = await _repository.getDeviceInfo();
     switch (result) {
       case Ok():
-      _deviceInfo = result.value;
+        _deviceInfo = result.value;
       case Error():
-      _deviceInfo = null;
+        _deviceInfo = null;
     }
     _isLoading = false;
     notifyListeners();

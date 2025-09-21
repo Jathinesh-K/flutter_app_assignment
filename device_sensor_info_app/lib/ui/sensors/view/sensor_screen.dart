@@ -19,9 +19,7 @@ class SensorScreen extends StatelessWidget {
                 viewModel.flashlightEnabled
                     ? Icons.flashlight_on
                     : Icons.flashlight_off,
-                color: viewModel.flashlightEnabled
-                    ? Colors.amber
-                    : Colors.grey,
+                color: viewModel.flashlightEnabled ? Colors.amber : Colors.grey,
               ),
               const SizedBox(height: 16),
               if (!viewModel.hasFlashlight)

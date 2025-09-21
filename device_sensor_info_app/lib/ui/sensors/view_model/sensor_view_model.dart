@@ -12,7 +12,7 @@ class SensorViewModel extends ChangeNotifier {
   }
   bool _hasFlashlight = false;
   bool get hasFlashlight => _hasFlashlight;
-  
+
   bool _flashlightEnabled = false;
   bool get flashlightEnabled => _flashlightEnabled;
 
@@ -36,7 +36,7 @@ class SensorViewModel extends ChangeNotifier {
     if (result is Ok<bool> && result.value) {
       _flashlightEnabled = !_flashlightEnabled;
     }
-     _isFlashlightLoading = false;
+    _isFlashlightLoading = false;
     notifyListeners();
   }
 }

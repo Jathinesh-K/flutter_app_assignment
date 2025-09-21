@@ -14,7 +14,7 @@ List<SingleChildWidget> get providers => [
   Provider<DeviceInfoService>(
     create: (context) => DeviceInfoServiceImpl() as DeviceInfoService,
   ),
-   Provider<FlashlightService>(
+  Provider<FlashlightService>(
     create: (context) => FlashlightServiceImpl() as FlashlightService,
   ),
   Provider<DeviceInfoRepository>(

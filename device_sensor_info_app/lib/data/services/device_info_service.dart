@@ -4,7 +4,6 @@ abstract class DeviceInfoService {
   Future<int?> getBatteryLevel();
   Future<String> getDeviceName();
   Future<String> getOSVersion();
-
 }
 
 class DeviceInfoServiceImpl implements DeviceInfoService {
@@ -19,7 +18,7 @@ class DeviceInfoServiceImpl implements DeviceInfoService {
       throw Exception('Failed to get battery level: ${e.message}');
     }
   }
-  
+
   @override
   Future<String> getDeviceName() async {
     try {
@@ -29,7 +28,7 @@ class DeviceInfoServiceImpl implements DeviceInfoService {
       throw Exception('Failed to get device Name: ${e.message}');
     }
   }
-  
+
   @override
   Future<String> getOSVersion() async {
     try {

@@ -19,7 +19,7 @@ class DeviceInfoScreen extends StatelessWidget {
               child: Consumer<DeviceInfoViewModel>(
                 builder: (context, viewModel, _) {
                   final deviceInfo = viewModel.deviceInfo;
-              
+
                   if (viewModel.isLoading) {
                     return Lottie.asset('assets/loading_animation.json');
                   } else if (deviceInfo == null) {
